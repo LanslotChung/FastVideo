@@ -1,16 +1,18 @@
 package com.lanslot.fastvideo.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Bean.MovieChannel;
 import com.lanslot.fastvideo.R;
+import com.lanslot.fastvideo.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -54,8 +56,10 @@ public class PlatformAdapter extends BaseAdapter {
         MovieChannel platform = getItem(position);
         holder.title.setText(platform.getName());
         Picasso.get().load(platform.getIcon()).into(holder.logo);
-        convertView.setOnClickListener((v)->{
-            Toast.makeText(parent.getContext(),platform.getUrl(),Toast.LENGTH_SHORT).show();
+        convertView.setOnClickListener((v)-> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", platform.getUrl());
+            AuthUtils.getInstance().startActivity(context, WebViewActivity.class, bundle);
         });
         return convertView;
     }

@@ -39,4 +39,5 @@
     <string name="unknown_user">未知好友</string>
     <string name="get_contact_error">您已取消授权，将无法获知用户名称</string>
     <string name="no_invite_users">您可能尚未邀请任何人\n邀请多多，奖励多多哦</string>
+    <string name="noback">当前页面不能再后退了，点击左上角退出</string>
 </resources>

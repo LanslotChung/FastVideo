@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.king.zxing:zxing-lite:1.1.9'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
     implementation 'com.zzhoujay:html:1.0.2'
+    implementation 'cn.yc:WebViewLib:1.4.0'
     compileOnly "org.projectlombok:lombok:1.18.12"
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     testImplementation 'junit:junit:4.12'

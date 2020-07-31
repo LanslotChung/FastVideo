@@ -2,11 +2,6 @@ package com.lanslot.fastvideo.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +12,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.alibaba.fastjson.JSON;
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Bean.Config;
 import com.lanslot.fastvideo.Bean.JSON.UserJSON;
 import com.lanslot.fastvideo.Bean.User;
+import com.lanslot.fastvideo.CommonQuestionActivity;
 import com.lanslot.fastvideo.DB.UserInfo;
 import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
@@ -87,6 +87,11 @@ public class SelfFragment extends Fragment {
             loginPanel.setVisibility(View.VISIBLE);
             userPanel.setVisibility(View.GONE);
         }
+    }
+
+    @Event(R.id.common_question_button)
+    private void onCommonQuestionButtonClicked(View v) {
+        AuthUtils.getInstance().startActivity(getActivity(), CommonQuestionActivity.class, null);
     }
 
     @Event(R.id.login)

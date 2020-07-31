@@ -73,20 +73,22 @@ public class AuthUtils {
         }
     }
 
-    public AuthUtils addAuthority(Class<? extends BaseAuthority> authority, Class<? extends Activity> clazz){
-        for(BaseAuthority key : authorities.keySet()){
-            if(key.getClass() == authority){
-                if(!authorities.get(key).contains(clazz)){
-                    authorities.get(key).add(clazz);
-                    return instance;
-                }
+    public AuthUtils addAuthority(Class<? extends BaseAuthority> authority, Class<? extends Activity>... clazz) {
+        for (BaseAuthority key : authorities.keySet()) {
+            if (key.getClass() == authority) {
+                for (Class<? extends Activity> c : clazz)
+                    if (!authorities.get(key).contains(c)) {
+                        authorities.get(key).add(c);
+                        return instance;
+                    }
             }
         }
         try {
             ArrayList<Class<? extends Activity>> classes = new ArrayList<>();
-            classes.add(clazz);
-            BaseAuthority auth =  authority.newInstance();
-            authorities.put(auth,classes);
+            for (Class<? extends Activity> c : clazz)
+                classes.add(c);
+            BaseAuthority auth = authority.newInstance();
+            authorities.put(auth, classes);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

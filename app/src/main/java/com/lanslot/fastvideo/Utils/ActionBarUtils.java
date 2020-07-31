@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 
 public class ActionBarUtils {
     private static volatile ActionBarUtils mInstance;
@@ -25,13 +26,16 @@ public class ActionBarUtils {
     }
 
     public View setCustomActionBar(Context context, ActionBar actionBar, int layoutId) {
-        ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
         View mActionBarView = LayoutInflater.from(context).inflate(layoutId, null);
         actionBar.setCustomView(mActionBarView, lp);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+        Toolbar parent = (Toolbar) mActionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
         return mActionBarView;
     }
 }

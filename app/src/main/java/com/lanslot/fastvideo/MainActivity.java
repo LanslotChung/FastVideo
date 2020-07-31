@@ -1,14 +1,9 @@
 package com.lanslot.fastvideo;
 
+import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.lanslot.fastvideo.Adapter.MyFragmentAdapter;
-import com.lanslot.fastvideo.Fragments.IndexFragment;
-import com.lanslot.fastvideo.Fragments.SelfFragment;
-import com.lanslot.fastvideo.Utils.StatusBarUtil;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,7 +11,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.widget.LinearLayout;
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.lanslot.fastvideo.Adapter.MyFragmentAdapter;
+import com.lanslot.fastvideo.Fragments.IndexFragment;
+import com.lanslot.fastvideo.Fragments.SelfFragment;
+import com.lanslot.fastvideo.Utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -101,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
         container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                if (positionOffset == 0) return;
+                StatusBarUtil.setStatusBarColorHex(MainActivity.this,
+                        (int) new ArgbEvaluator()
+                                .evaluate(positionOffset,
+                                        getColor(R.color.colorPrimary), getColor(R.color.gold)));
             }
 
             @Override
