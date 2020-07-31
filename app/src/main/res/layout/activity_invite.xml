@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rfal="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/invite_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    rfal:rfal_frame_alpha="0.7"
+    rfal:rfal_frame_color="#ffffff"
+    tools:context="com.lanslot.fastvideo.InviteActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yalantis.phoenix.PullToRefreshView
+            android:id="@+id/pull_to_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_margin="10dp">
+
+            <ListView
+                android:id="@+id/invite_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.yalantis.phoenix.PullToRefreshView>
+        <TextView
+            android:id="@+id/nousers"
+            android:gravity="center"
+            android:text="@string/no_invite_users"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton xmlns:rfab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/invite_menu"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:padding="5dp"
+        rfab:rfab_color_normal="@color/white"
+        rfab:rfab_color_pressed="@color/whitesmoke"
+        rfab:rfab_drawable="@drawable/more"
+        rfab:rfab_shadow_color="@color/lightgray"
+        rfab:rfab_shadow_dx="1dp"
+        rfab:rfab_shadow_dy="1dp"
+        rfab:rfab_shadow_radius="2dp"
+        rfab:rfab_size="normal" />
+</com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
