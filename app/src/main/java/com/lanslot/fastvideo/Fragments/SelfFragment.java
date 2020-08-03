@@ -27,6 +27,7 @@ import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
 import com.lanslot.fastvideo.InviteActivity;
 import com.lanslot.fastvideo.LoginActivity;
+import com.lanslot.fastvideo.ModifyPasswordActivity;
 import com.lanslot.fastvideo.MyApplication;
 import com.lanslot.fastvideo.R;
 
@@ -105,6 +106,11 @@ public class SelfFragment extends Fragment {
 //        Intent intent = new Intent(getActivity(), InviteActivity.class);
 //        startActivity(intent);
         AuthUtils.getInstance().startActivity(getActivity(),InviteActivity.class,null);
+    }
+
+    @Event(R.id.modify_password)
+    private void onModifyPasswordButtonClicked(View v){
+        AuthUtils.getInstance().startActivity(getActivity(), ModifyPasswordActivity.class,null);
     }
 
     @Override

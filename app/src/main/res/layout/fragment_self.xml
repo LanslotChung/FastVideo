@@ -149,13 +149,14 @@
         </RelativeLayout>
         <!--        修改密码-->
         <RelativeLayout
+            android:id="@+id/modify_password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:background="@color/white">
 
             <ImageView
-                android:id="@+id/logo_password_modify"
+                android:id="@+id/logo_modify_modify"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
@@ -167,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/logo_password_modify"
+                android:layout_toRightOf="@id/logo_modify_modify"
                 android:text="@string/password_modify" />
 
             <ImageView
@@ -212,6 +213,7 @@
         </RelativeLayout>
         <!--    订阅-->
         <RelativeLayout
+            android:id="@+id/charge"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"

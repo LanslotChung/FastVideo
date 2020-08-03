@@ -45,7 +45,7 @@ public class UserInfoDao {
         }
     }
 
-    public void add(UserInfo userInfo) {
+    public void addOrUpdate(UserInfo userInfo) {
         try {
             UserInfo ui = find();
             if(ui != null){

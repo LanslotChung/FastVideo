@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     userInfo.setMobile(un);
                     userInfo.setPassword(pw);
                     userInfo.setToken(jo.getDatas());
-                    UserInfoDao.getInstance().add(userInfo);
+                    UserInfoDao.getInstance().addOrUpdate(userInfo);
 
                     Intent intent = new Intent();
                     setResult(RESPONSE_LOGIN_SUCC, intent);

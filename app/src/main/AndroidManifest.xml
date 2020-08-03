@@ -21,8 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".CommonQuestionActivity" />
+        <activity android:name=".ModifyPasswordActivity"></activity>
         <activity
             android:name=".InviteActivity"
             android:screenOrientation="sensorPortrait" />
