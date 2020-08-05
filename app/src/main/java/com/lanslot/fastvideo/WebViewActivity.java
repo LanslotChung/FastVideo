@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,8 +30,6 @@ public class WebViewActivity extends AppCompatActivity {
     private X5WebView mWebView;
     @ViewInject(R.id.intro_panel)
     RelativeLayout introPanel;
-    @ViewInject(R.id.arrow)
-    ImageView arrow;
 
     private WebProgress pb;
     private String lastUrl;
@@ -56,7 +53,7 @@ public class WebViewActivity extends AppCompatActivity {
         actionBar.findViewById(R.id.refresh).setOnClickListener(v -> mWebView.reload());
         actionBar.findViewById(R.id.play).setOnClickListener(v -> {
             Bundle data = new Bundle();
-            data.putString("url", mWebView.getUrl());
+            data.putString("video", mWebView.getUrl());
             AuthUtils.getInstance().startActivity(this, VideoActivity.class, data);
         });
 

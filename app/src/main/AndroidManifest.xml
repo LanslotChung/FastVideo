@@ -21,9 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VideoActivity"></activity>
-        <activity android:name=".ModifyPasswordActivity" />
-        <activity android:name=".WebViewActivity" />
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".ModifyPasswordActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".InviteActivity"
             android:screenOrientation="sensorPortrait" />
