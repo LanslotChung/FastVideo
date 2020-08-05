@@ -48,4 +48,5 @@
     <string name="iknow">好的，我知道了</string>
     <string name="dont_notice">不要再提醒我</string>
     <string name="access_server_fail">访问服务器数据失败</string>
+    <string name="change_router">切换线路</string>
 </resources>

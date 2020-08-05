@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
@@ -53,6 +54,11 @@ public class WebViewActivity extends AppCompatActivity {
 
         actionBar.findViewById(R.id.close).setOnClickListener(v -> finish());
         actionBar.findViewById(R.id.refresh).setOnClickListener(v -> mWebView.reload());
+        actionBar.findViewById(R.id.play).setOnClickListener(v -> {
+            Bundle data = new Bundle();
+            data.putString("url", mWebView.getUrl());
+            AuthUtils.getInstance().startActivity(this, VideoActivity.class, data);
+        });
 
         String url = getIntent().getBundleExtra("data").getString("url");
         mWebView.loadUrl(url);
