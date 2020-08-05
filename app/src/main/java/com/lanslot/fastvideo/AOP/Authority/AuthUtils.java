@@ -64,13 +64,23 @@ public class AuthUtils {
 
     public void pass(Context context){
         try {
-            if(goal_intent !=  null && goal_intent.getComponent() != null && !goal_intent.getComponent().getClassName().isEmpty()) {
+
+            if(goal_intent !=  null
+                    && goal_intent.getComponent() != null
+                    && !goal_intent.getComponent().getClassName().isEmpty()
+                    && !goal_intent.getComponent().getClassName().equals(context.getClass().getName())
+            ) {
                 Class<?> clazz = Class.forName(goal_intent.getComponent().getClassName());
                 startActivity(context, clazz, null);
             }
+            goal_intent = null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void clear(){
+        goal_intent = null;
     }
 
     public AuthUtils addAuthority(Class<? extends BaseAuthority> authority, Class<? extends Activity>... clazz) {

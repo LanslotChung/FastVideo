@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.lanslot.fastvideo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".MyApplication"
@@ -21,8 +23,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ModifyPasswordActivity"></activity>
-        <activity android:name=".WebViewActivity"></activity>
+
+        <receiver
+            android:name=".Receiver.InstallReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name=".Utils.GenericFileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".CheckUpdateActivity" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".PuchaseActivity" />
+        <activity android:name=".CommonQuestionActivity" />
+        <activity android:name=".ModifyPasswordActivity" />
         <activity
             android:name=".InviteActivity"
             android:screenOrientation="sensorPortrait" />

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.lanslot.fastvideo.DB.UserInfo;
 import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
 import com.lanslot.fastvideo.Utils.RegUtils;
+import com.lanslot.fastvideo.Utils.StatusBarUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -36,10 +38,28 @@ public class ModifyPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        x.view().inject(this);
+
+        UserInfo userInfo = UserInfoDao.getInstance().find();
+        username.setText(userInfo.getMobile());
+        username.setEnabled(false);//去掉点击时编辑框下面横线:
+        getSupportActionBar().hide();
+        StatusBarUtil.setStatusBarColor(this,R.color.login_background);
 
     }
     @Event(R.id.back)
     private void onBackButtonClicked(View v){
+        back();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        back();
+        return false;
+    }
+
+    private void back(){
+        AuthUtils.getInstance().clear();
         finish();
     }
 
@@ -115,6 +135,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                     setResult(RESPONSE_LOGIN_SUCC, intent);
 
                     MyApplication.getApplication().isLogin = true;
+                    AuthUtils.getInstance().pass(ModifyPasswordActivity.this);
                     finish();
                 }else{
                     MyApplication.getApplication().isLogin = false;

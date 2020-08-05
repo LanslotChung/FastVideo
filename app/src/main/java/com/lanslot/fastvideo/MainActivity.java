@@ -1,7 +1,12 @@
 package com.lanslot.fastvideo;
 
 import android.animation.ArgbEvaluator;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,9 +22,12 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.lanslot.fastvideo.Adapter.MyFragmentAdapter;
 import com.lanslot.fastvideo.Bean.JSON.SettingJSON;
+import com.lanslot.fastvideo.Bean.JSON.StringDataJSON;
 import com.lanslot.fastvideo.Fragments.IndexFragment;
 import com.lanslot.fastvideo.Fragments.SelfFragment;
 import com.lanslot.fastvideo.Http.HttpCommon;
+import com.lanslot.fastvideo.Utils.DownloadUtils;
+import com.lanslot.fastvideo.Utils.PackageUtils;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
 
 import org.xutils.common.Callback;
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initBottomNavBar();
         initViewpager();
+        doCheckUpdate();
         requestSettings();
     }
 
@@ -94,6 +103,55 @@ public class MainActivity extends AppCompatActivity {
         }else {
             container.setCurrentItem(0);
         }
+    }
+
+    private void doCheckUpdate() {
+        String versionCode = "";
+        versionCode = PackageUtils.getVersion(this);
+        RequestParams params = new RequestParams(HttpCommon.CHECK_VERSION);
+        params.addQueryStringParameter("versionName", versionCode);
+        params.addQueryStringParameter("type", "1");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                StringDataJSON jo = JSON.parseObject(result, StringDataJSON.class);
+                if (jo.getCode() == 0) {
+                    Toast.makeText(MainActivity.this, R.string.update_need_no, Toast.LENGTH_SHORT).show();
+                } else {
+                    String url = jo.getDatas();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.mainlogo).setTitle("版本更新")
+                            .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DownloadUtils.downloadApk(MainActivity.this,url);
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void initBottomNavBar() {

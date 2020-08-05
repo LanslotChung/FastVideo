@@ -1,11 +1,11 @@
 package com.lanslot.fastvideo;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
@@ -17,19 +17,19 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_common_question)
-public class CommonQuestionActivity extends AppCompatActivity {
+@ContentView(R.layout.activity_about_us)
+public class AboutUsActivity extends AppCompatActivity {
+
     @ViewInject(R.id.richtext)
-    TextView richText;
+    TextView richtext;
 
-    private String html = "<div>asdasdasd<br /><img src=\"http://timg01.bdimg.com/timg" +
-            "?pacompress&imgtype=0&sec=1439619614&" +
-            "di=8a54bb99aef8b192debf0b251be173be" +
-            "&quality=90&size=b870_10000&src=http%3A%2F%2Fbos.nj.bpc.baidu.com" +
-            "%2Fv1%2Fmediaspot" +
-            "%2Fb767998c68ac1c9aec747491b0f5e1c5.jpeg\"></div>";
+    private String html = "<div><span>我们的公众号</span><br /><img src=\"https://timgsa.baidu.com/timg?"+
+            "image&quality=80&size=b9999_10000&sec=1596452682537&"+
+            "di=b685e06305b1820647b6a5c463b011aa&imgtype=0&"+
+            "src=http%3A%2F%2Fpic168.nipic.com%"+
+            "2Ffile%2F20180611%2F27279308_183020193000_2.jpg\"></div>";
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
@@ -43,7 +43,7 @@ public class CommonQuestionActivity extends AppCompatActivity {
             AuthUtils.getInstance().clear();
             finish();
         });
-        ((TextView) actionBar.findViewById(R.id.title)).setText("常见问题");
+        ((TextView) actionBar.findViewById(R.id.title)).setText("关于我们");
 
         StatusBarUtil.setStatusBarColor(this, R.color.dodgerblue);
 
@@ -52,14 +52,16 @@ public class CommonQuestionActivity extends AppCompatActivity {
                 .bind(this)
                 .showBorder(false)
                 .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
-                .into(richText);
+                .into(richtext);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         AuthUtils.getInstance().clear();
         finish();
         return false;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

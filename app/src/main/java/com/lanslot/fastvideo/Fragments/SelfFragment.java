@@ -1,10 +1,18 @@
 package com.lanslot.fastvideo.Fragments;
 
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,9 +26,12 @@ import androidx.fragment.app.Fragment;
 
 import com.alibaba.fastjson.JSON;
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
+import com.lanslot.fastvideo.AboutUsActivity;
 import com.lanslot.fastvideo.Bean.Config;
+import com.lanslot.fastvideo.Bean.JSON.StringDataJSON;
 import com.lanslot.fastvideo.Bean.JSON.UserJSON;
 import com.lanslot.fastvideo.Bean.User;
+import com.lanslot.fastvideo.CheckUpdateActivity;
 import com.lanslot.fastvideo.CommonQuestionActivity;
 import com.lanslot.fastvideo.DB.UserInfo;
 import com.lanslot.fastvideo.DB.UserInfoDao;
@@ -29,7 +40,10 @@ import com.lanslot.fastvideo.InviteActivity;
 import com.lanslot.fastvideo.LoginActivity;
 import com.lanslot.fastvideo.ModifyPasswordActivity;
 import com.lanslot.fastvideo.MyApplication;
+import com.lanslot.fastvideo.PuchaseActivity;
 import com.lanslot.fastvideo.R;
+import com.lanslot.fastvideo.Utils.DownloadUtils;
+import com.lanslot.fastvideo.Utils.PackageUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -40,6 +54,9 @@ import org.xutils.x;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
+
 
 @ContentView(R.layout.fragment_self)
 public class SelfFragment extends Fragment {
@@ -74,7 +91,7 @@ public class SelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(MyApplication.getApplication().isLogin){
+        if (MyApplication.getApplication().isLogin) {
             setUserPanel();
         }
     }
@@ -90,10 +107,71 @@ public class SelfFragment extends Fragment {
         }
     }
 
+    @Event(R.id.puchase_button)
+    private void onPuchaseButtonClicked(View v) {
+        AuthUtils.getInstance().startActivity(getActivity(), PuchaseActivity.class, null);
+    }
+
     @Event(R.id.common_question_button)
     private void onCommonQuestionButtonClicked(View v) {
         AuthUtils.getInstance().startActivity(getActivity(), CommonQuestionActivity.class, null);
     }
+
+    @Event(R.id.check_update_button)
+    private void onCheckUpdateButtonClicked(View v) {
+        String versionCode = "";
+        versionCode = PackageUtils.getVersion(getActivity());
+        RequestParams params = new RequestParams(HttpCommon.CHECK_VERSION);
+        params.addQueryStringParameter("versionName", versionCode);
+        params.addQueryStringParameter("type", "1");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                StringDataJSON jo = JSON.parseObject(result, StringDataJSON.class);
+                if (jo.getCode() == 0) {
+                    Toast.makeText(getActivity(), R.string.update_need_no, Toast.LENGTH_SHORT).show();
+                } else {
+                    String url = "https://ucan.25pp.com/Wandoujia_web_seo_baidu_homepage.apk";//jo.getDatas();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity()).setIcon(R.drawable.mainlogo).setTitle("版本更新")
+                            .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DownloadUtils.downloadApk(getActivity(),url);
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), "检查更新失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Toast.makeText(getActivity(), "检查更新失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFinished() {
+            }
+        });
+    }
+
+
+    @Event(R.id.about_us_button)
+    private void onAboutUsButtonClicked(View v) {
+        AuthUtils.getInstance().startActivity(getActivity(), AboutUsActivity.class, null);
+    }
+
 
     @Event(R.id.login)
     private void onLoginButtonClicked(View v) {
@@ -105,12 +183,12 @@ public class SelfFragment extends Fragment {
     private void onInviteButtonClicked(View v) {
 //        Intent intent = new Intent(getActivity(), InviteActivity.class);
 //        startActivity(intent);
-        AuthUtils.getInstance().startActivity(getActivity(),InviteActivity.class,null);
+        AuthUtils.getInstance().startActivity(getActivity(), InviteActivity.class, null);
     }
 
     @Event(R.id.modify_password)
-    private void onModifyPasswordButtonClicked(View v){
-        AuthUtils.getInstance().startActivity(getActivity(), ModifyPasswordActivity.class,null);
+    private void onModifyPasswordButtonClicked(View v) {
+        AuthUtils.getInstance().startActivity(getActivity(), ModifyPasswordActivity.class, null);
     }
 
     @Override
@@ -120,6 +198,7 @@ public class SelfFragment extends Fragment {
             getUserInfo();
         }
     }
+
 
     private void getUserInfo() {
         UserInfo userInfo = UserInfoDao.getInstance().find();
@@ -154,7 +233,7 @@ public class SelfFragment extends Fragment {
         });
     }
 
-    private void setUserPanel(){
+    private void setUserPanel() {
         loginPanel.setVisibility(View.GONE);
         userPanel.setVisibility(View.VISIBLE);
         logout.setVisibility(View.VISIBLE);
@@ -182,4 +261,6 @@ public class SelfFragment extends Fragment {
         statusImage.setImageResource(imgId);
         MyApplication.getApplication().isLogin = true;
     }
+
+
 }

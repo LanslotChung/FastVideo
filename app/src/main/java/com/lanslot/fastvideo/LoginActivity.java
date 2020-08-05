@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -51,6 +52,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @Event(R.id.back)
     private void onBackButtonClicked(View v){
+        back();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        back();
+        return false;
+    }
+
+    private void back(){
+        AuthUtils.getInstance().clear();
         finish();
     }
 
@@ -109,9 +121,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     setResult(RESPONSE_LOGIN_SUCC, intent);
-                    finish();
+
                     MyApplication.getApplication().isLogin = true;
                     AuthUtils.getInstance().pass(LoginActivity.this);
+                    finish();
                 }else{
                     MyApplication.getApplication().isLogin = false;
                     Toast.makeText(LoginActivity.this,jo.getMsg(),Toast.LENGTH_SHORT).show();

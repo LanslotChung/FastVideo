@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.king.zxing.util.CodeUtils;
+import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Adapter.UserListAdapter;
 import com.lanslot.fastvideo.Bean.Config;
 import com.lanslot.fastvideo.Bean.JSON.UserGroupJSON;
@@ -156,6 +158,13 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
                 break;
         }
         rfabHelper.toggleContent();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        AuthUtils.getInstance().clear();
+        finish();
+        return false;
     }
 
     @Override

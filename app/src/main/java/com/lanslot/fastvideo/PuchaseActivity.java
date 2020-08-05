@@ -1,11 +1,11 @@
 package com.lanslot.fastvideo;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
@@ -17,19 +17,19 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_common_question)
-public class CommonQuestionActivity extends AppCompatActivity {
+@ContentView(R.layout.activity_puchase)
+public class PuchaseActivity extends AppCompatActivity {
     @ViewInject(R.id.richtext)
-    TextView richText;
+    TextView richtext;
 
-    private String html = "<div>asdasdasd<br /><img src=\"http://timg01.bdimg.com/timg" +
+    private String html = "<div><span>请添加支付宝/微信订阅会员</span><br /><img src=\"http://timg01.bdimg.com/timg" +
             "?pacompress&imgtype=0&sec=1439619614&" +
             "di=8a54bb99aef8b192debf0b251be173be" +
             "&quality=90&size=b870_10000&src=http%3A%2F%2Fbos.nj.bpc.baidu.com" +
             "%2Fv1%2Fmediaspot" +
             "%2Fb767998c68ac1c9aec747491b0f5e1c5.jpeg\"></div>";
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
@@ -43,7 +43,7 @@ public class CommonQuestionActivity extends AppCompatActivity {
             AuthUtils.getInstance().clear();
             finish();
         });
-        ((TextView) actionBar.findViewById(R.id.title)).setText("常见问题");
+        ((TextView) actionBar.findViewById(R.id.title)).setText("订阅会员");
 
         StatusBarUtil.setStatusBarColor(this, R.color.dodgerblue);
 
@@ -52,14 +52,16 @@ public class CommonQuestionActivity extends AppCompatActivity {
                 .bind(this)
                 .showBorder(false)
                 .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
-                .into(richText);
+                .into(richtext);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         AuthUtils.getInstance().clear();
         finish();
         return false;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
