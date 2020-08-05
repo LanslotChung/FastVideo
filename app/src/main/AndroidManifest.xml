@@ -22,6 +22,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ModifyPasswordActivity"></activity>
+        <activity android:name=".WebViewActivity"></activity>
         <activity
             android:name=".InviteActivity"
             android:screenOrientation="sensorPortrait" />

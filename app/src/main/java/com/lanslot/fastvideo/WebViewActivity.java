@@ -1,8 +1,13 @@
 package com.lanslot.fastvideo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import com.ycbjie.webviewlib.view.X5WebView;
 import com.ycbjie.webviewlib.widget.WebProgress;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -22,6 +28,11 @@ import org.xutils.x;
 public class WebViewActivity extends AppCompatActivity {
     @ViewInject(R.id.webview)
     private X5WebView mWebView;
+    @ViewInject(R.id.intro_panel)
+    RelativeLayout introPanel;
+    @ViewInject(R.id.arrow)
+    ImageView arrow;
+
     private WebProgress pb;
     private String lastUrl;
 
@@ -39,6 +50,7 @@ public class WebViewActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.noback, Toast.LENGTH_SHORT).show();
             }
         });
+
         actionBar.findViewById(R.id.close).setOnClickListener(v -> finish());
         actionBar.findViewById(R.id.refresh).setOnClickListener(v -> mWebView.reload());
 
@@ -56,16 +68,13 @@ public class WebViewActivity extends AppCompatActivity {
                 }
                 return super.shouldOverrideUrlLoading(webView, webResourceRequest);
             }
-
-            @Override
-            public void onLoadResource(WebView webView, String s) {
-
-                String js = "$(\".poster_mask_a\").css(\"background\",\"#fff\");\n" +
-                        "$(\".player_viptips\").click = function(){alert(111)};";
-                mWebView.evaluateJavascript(js);
-                super.onLoadResource(webView, s);
-            }
         });
+
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        boolean dont_notice = sharedPreferences.getBoolean("dont_notice", false);
+        if (dont_notice) {
+            introPanel.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -83,5 +92,18 @@ public class WebViewActivity extends AppCompatActivity {
         if (mWebView != null)
             mWebView.destroy();
         super.onDestroy();
+    }
+
+    @Event(value = R.id.dont_notice, type = CompoundButton.OnCheckedChangeListener.class)
+    private void onDontNoticeCheckChanged(CompoundButton compoundButton, boolean isChecked) {
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("dont_notice", isChecked);
+        editor.commit();
+    }
+
+    @Event(R.id.iknow)
+    private void onIKnowButtonClicked(View v) {
+        introPanel.setVisibility(View.GONE);
     }
 }

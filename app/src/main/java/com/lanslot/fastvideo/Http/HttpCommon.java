@@ -5,7 +5,7 @@ public class HttpCommon {
     static public final String LOGIN = URL + "/user/login";
     static public final String FORGET_PASSWORD = URL + "/user/forgetPassword";
     static public final String LOGOUT = URL + "/user/logout";
-    static public final String Config = URL + "/config/list";
+    static public final String CONFIG = URL + "/config/list";
     static public final String INDEX_INFO = URL + "/index/info";
     static public final String USER_GROUP = URL + "/user/getUser";
     static public final String RESET_PASSWORD = URL + "/user/resetPassword";

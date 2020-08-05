@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,13 +12,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alibaba.fastjson.JSON;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.lanslot.fastvideo.Adapter.MyFragmentAdapter;
+import com.lanslot.fastvideo.Bean.JSON.SettingJSON;
 import com.lanslot.fastvideo.Fragments.IndexFragment;
 import com.lanslot.fastvideo.Fragments.SelfFragment;
+import com.lanslot.fastvideo.Http.HttpCommon;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -44,7 +50,37 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initBottomNavBar();
         initViewpager();
+        requestSettings();
+    }
 
+    private void requestSettings() {
+        RequestParams params = new RequestParams(HttpCommon.CONFIG);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                SettingJSON jo = JSON.parseObject(result, SettingJSON.class);
+                if (jo.getCode() == 0) {
+                    MyApplication.setSettings(jo);
+                } else {
+                    Toast.makeText(MainActivity.this, jo.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(MainActivity.this, R.string.access_server_fail, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void initViewpager() {

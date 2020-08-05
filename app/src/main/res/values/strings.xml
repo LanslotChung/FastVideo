@@ -44,4 +44,8 @@
     <string name="modify_fail">修改失败</string>
     <string name="modify_succ">修改失败</string>
     <string name="noback">当前页面不能再后退了，点击左上角退出</string>
+    <string name="intro">1.选择好想要观看的视频\n2.点击页面右上角的播放按钮\n3.享受无广告VIP观影体验</string>
+    <string name="iknow">好的，我知道了</string>
+    <string name="dont_notice">不要再提醒我</string>
+    <string name="access_server_fail">访问服务器数据失败</string>
 </resources>
