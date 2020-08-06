@@ -19,15 +19,6 @@ import org.xutils.x;
 
 @ContentView(R.layout.activity_purchase)
 public class PurchaseActivity extends AppCompatActivity {
-    @ViewInject(R.id.richtext)
-    TextView richtext;
-
-    private String html = "<div><span>请添加支付宝/微信订阅会员</span><br /><img src=\"http://timg01.bdimg.com/timg" +
-            "?pacompress&imgtype=0&sec=1439619614&" +
-            "di=8a54bb99aef8b192debf0b251be173be" +
-            "&quality=90&size=b870_10000&src=http%3A%2F%2Fbos.nj.bpc.baidu.com" +
-            "%2Fv1%2Fmediaspot" +
-            "%2Fb767998c68ac1c9aec747491b0f5e1c5.jpeg\"></div>";
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +29,15 @@ public class PurchaseActivity extends AppCompatActivity {
                 getSupportActionBar(),
                 R.layout.layout_actionbar);
 
-        actionBar.findViewById(R.id.actionbar_layout).setBackgroundResource(R.color.dodgerblue);
+        actionBar.findViewById(R.id.actionbar_layout).setBackgroundResource(R.color.thistle);
         actionBar.findViewById(R.id.back).setOnClickListener(v -> {
             AuthUtils.getInstance().clear();
             finish();
         });
         ((TextView) actionBar.findViewById(R.id.title)).setText("订阅会员");
 
-        StatusBarUtil.setStatusBarColor(this, R.color.dodgerblue);
+        StatusBarUtil.setStatusBarColor(this, R.color.thistle);
 
-        RichText.initCacheDir(this);
-        RichText.from(html)
-                .bind(this)
-                .showBorder(false)
-                .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
-                .into(richtext);
     }
 
     @Override

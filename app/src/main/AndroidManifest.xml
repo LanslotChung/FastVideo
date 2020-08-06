@@ -22,12 +22,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PrivacyPolicyActivity"></activity>
+        <activity
+            android:name=".UserAgreementActivity"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".ModifyPasswordActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".CommonQuestionActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".PurchaseActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".AboutUsActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".WebViewActivity"

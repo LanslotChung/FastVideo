@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,R.string.error_username,Toast.LENGTH_SHORT).show();
             return;
         }
-        if(pw.length() < 6 || pw.length() >= 11){
+        if(!RegUtils.isPassWord(pw)){
             password.startAnimation(shakeAnim);
             Toast.makeText(this,R.string.error_password,Toast.LENGTH_SHORT).show();
             return;

@@ -3,28 +3,27 @@ package com.lanslot.fastvideo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
-import com.lanslot.fastvideo.Utils.PackageUtils;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_about_us)
-public class AboutUsActivity extends AppCompatActivity {
 
- @ViewInject(R.id.versionCode)
-     TextView versionCode;
-
+@ContentView(R.layout.activity_user_agreement)
+public class UserAgreementActivity extends AppCompatActivity {
+    @ViewInject(R.id.userAgreementContent)
+    TextView uac;
+    
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
@@ -38,32 +37,16 @@ public class AboutUsActivity extends AppCompatActivity {
             AuthUtils.getInstance().clear();
             finish();
         });
-        ((TextView) actionBar.findViewById(R.id.title)).setText("关于我们");
+        ((TextView) actionBar.findViewById(R.id.title)).setText("用户协议");
 
         StatusBarUtil.setStatusBarColor(this, R.color.paleturquoise);
-        versionCode.setText(PackageUtils.getVersion(AboutUsActivity.this));
+        RichText.initCacheDir(this);
+        RichText.from(getResources().getString(R.string.user_agreement_content))
+                .bind(this)
+                .showBorder(false)
+                .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
+                .into(uac);
 
     }
-    @Event(R.id.userAgreement)
-    private void onServiceAgreementButtonClicked(View v) {
-        AuthUtils.getInstance().startActivity(AboutUsActivity.this, UserAgreementActivity.class, null);
-    }
 
-    @Event(R.id.privacyPolicy)
-    private void onPrivacyPolicyButtonClicked(View v) {
-        AuthUtils.getInstance().startActivity(AboutUsActivity.this, PrivacyPolicyActivity.class, null);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        AuthUtils.getInstance().clear();
-        finish();
-        return false;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RichText.clear(this);
-    }
 }

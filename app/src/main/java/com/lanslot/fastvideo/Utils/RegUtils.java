@@ -15,4 +15,12 @@ public class RegUtils {
             return isMatch;
         }
     }
+    static public boolean isPassWord(String passWord){
+        String regex = "^[^\\u4e00-\\u9fa5]{6,11}$";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(passWord);
+            boolean isMatch = m.matches();
+            return isMatch;
+        }
+
 }

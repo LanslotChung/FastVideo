@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.lanslot.fastvideo.PurchaseActivity"
+    android:orientation="vertical">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/charge_bg"
-    tools:context="com.lanslot.fastvideo.PurchaseActivity">
-
-    <TextView
-        android:id="@+id/richtext"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:lineSpacingExtra="4dp"
-        android:textIsSelectable="true" />
-</ScrollView>
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ewm" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/purchase_mode"
+            android:textSize="25sp" />
+    </LinearLayout>
+</LinearLayout>

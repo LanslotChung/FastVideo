@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,9 +31,9 @@ import org.xutils.x;
 public class ModifyPasswordActivity extends AppCompatActivity {
     static public final int RESPONSE_LOGIN_SUCC = 1001;
     @ViewInject(R.id.username)
-    private EditText username;
+    EditText username;
     @ViewInject(R.id.password)
-    private EditText password;
+    EditText password;
     Animation shakeAnim;
 
     @Override
@@ -45,6 +46,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
         username.setEnabled(false);//去掉点击时编辑框下面横线:
         getSupportActionBar().hide();
         StatusBarUtil.setStatusBarColor(this,R.color.login_background);
+        shakeAnim = AnimationUtils.loadAnimation(this,R.anim.shake);
 
     }
     @Event(R.id.back)
@@ -72,7 +74,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
             Toast.makeText(this,R.string.error_username,Toast.LENGTH_SHORT).show();
             return;
         }
-        if(pw.length() < 6 || pw.length() >= 11){
+        if(!RegUtils.isPassWord(pw)){
             password.startAnimation(shakeAnim);
             Toast.makeText(this,R.string.error_password,Toast.LENGTH_SHORT).show();
             return;

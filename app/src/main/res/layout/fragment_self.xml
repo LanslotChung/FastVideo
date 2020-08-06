@@ -213,7 +213,7 @@
         </RelativeLayout>
         <!--    订阅-->
         <RelativeLayout
-            android:id="@+id/puchase_button"
+            android:id="@+id/purchase_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"

@@ -99,7 +99,7 @@ public class SelfFragment extends Fragment {
         }
     }
 
-    @Event(R.id.puchase_button)
+    @Event(R.id.purchase_button)
     private void onPuchaseButtonClicked(View v) {
         AuthUtils.getInstance().startActivity(getActivity(), PurchaseActivity.class, null);
     }
@@ -117,7 +117,6 @@ public class SelfFragment extends Fragment {
         params.addQueryStringParameter("versionName", versionCode);
         params.addQueryStringParameter("type", "1");
         x.http().get(params, new Callback.CommonCallback<String>() {
-
             @Override
             public void onSuccess(String result) {
                 StringDataJSON jo = JSON.parseObject(result, StringDataJSON.class);
