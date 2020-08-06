@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Toast.makeText(MainActivity.this, R.string.start_update, Toast.LENGTH_LONG).show();
                                     String apkName = "fastvideo-" + new Date().getTime() + ".apk";
-                                    new DownloadUtils(MainActivity.this, url, apkName);
+                                    new DownloadUtils(MainActivity.this, url, apkName).startDownload();
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

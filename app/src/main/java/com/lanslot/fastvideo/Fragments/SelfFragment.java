@@ -75,7 +75,9 @@ public class SelfFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = x.view().inject(this, inflater, container);
         if (UserInfoDao.getInstance().find() != null) {
-            getUserInfo();
+            if (Config.getInstance().getUser() == null) {
+                getUserInfo();
+            }
         }
         return view;
     }
@@ -130,7 +132,7 @@ public class SelfFragment extends Fragment {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Toast.makeText(getActivity(), R.string.start_update, Toast.LENGTH_LONG).show();
                                     String apkName = "fastvideo-" + new Date().getTime() + ".apk";
-                                    new DownloadUtils(getActivity(), url, apkName);
+                                    new DownloadUtils(getActivity(), url, apkName).startDownload();
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -174,9 +176,8 @@ public class SelfFragment extends Fragment {
 
     @Event(R.id.invite_button)
     private void onInviteButtonClicked(View v) {
-//        Intent intent = new Intent(getActivity(), InviteActivity.class);
-//        startActivity(intent);
         AuthUtils.getInstance().startActivity(getActivity(), InviteActivity.class, null);
+//        AuthUtils.getInstance().startActivity(getActivity(), TestActivity.class, null);
     }
 
     @Event(R.id.modify_password)
@@ -188,10 +189,38 @@ public class SelfFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == LoginActivity.RESPONSE_LOGIN_SUCC) {
-            getUserInfo();
+            setUserPanel();
         }
     }
 
+    private void setUserPanel() {
+        loginPanel.setVisibility(View.GONE);
+        userPanel.setVisibility(View.VISIBLE);
+        logout.setVisibility(View.VISIBLE);
+        User user = Config.getInstance().getUser();
+        tx_mobile.setText(user.getMobile());
+
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        expireText.setText(df.format(user.getExpireTime()));
+
+        int imgId = R.drawable.unsubscriber;
+        switch (user.getLevel()) {
+            case 0:
+                imgId = R.drawable.unsubscriber;
+                statusText.setText(R.string.unsubscribe_status);
+                expireText.setText(R.string.unsubscribe_status);
+                break;
+            case 1:
+                imgId = R.drawable.subscriber;
+                statusText.setText(R.string.subscribe_status);
+                break;
+            case 2:
+                imgId = R.drawable.subscriber_forever;
+                statusText.setText(R.string.forever_subscribe_status);
+        }
+        statusImage.setImageResource(imgId);
+        MyApplication.getApplication().isLogin = true;
+    }
 
     private void getUserInfo() {
         UserInfo userInfo = UserInfoDao.getInstance().find();
@@ -225,35 +254,5 @@ public class SelfFragment extends Fragment {
             }
         });
     }
-
-    private void setUserPanel() {
-        loginPanel.setVisibility(View.GONE);
-        userPanel.setVisibility(View.VISIBLE);
-        logout.setVisibility(View.VISIBLE);
-        User user = Config.getInstance().getUser();
-        tx_mobile.setText(user.getMobile());
-
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        expireText.setText(df.format(user.getExpireTime()));
-
-        int imgId = R.drawable.unsubscriber;
-        switch (user.getLevel()) {
-            case 0:
-                imgId = R.drawable.unsubscriber;
-                statusText.setText(R.string.unsubscribe_status);
-                expireText.setText(R.string.unsubscribe_status);
-                break;
-            case 1:
-                imgId = R.drawable.subscriber;
-                statusText.setText(R.string.subscribe_status);
-                break;
-            case 2:
-                imgId = R.drawable.subscriber_forever;
-                statusText.setText(R.string.forever_subscribe_status);
-        }
-        statusImage.setImageResource(imgId);
-        MyApplication.getApplication().isLogin = true;
-    }
-
 
 }

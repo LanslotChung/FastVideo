@@ -1,7 +1,5 @@
 package com.lanslot.fastvideo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,9 +9,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.alibaba.fastjson.JSON;
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
+import com.lanslot.fastvideo.Bean.Config;
 import com.lanslot.fastvideo.Bean.JSON.StringDataJSON;
+import com.lanslot.fastvideo.Bean.JSON.UserJSON;
 import com.lanslot.fastvideo.DB.UserInfo;
 import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
@@ -119,12 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     userInfo.setToken(jo.getDatas());
                     UserInfoDao.getInstance().addOrUpdate(userInfo);
 
-                    Intent intent = new Intent();
-                    setResult(RESPONSE_LOGIN_SUCC, intent);
-
-                    MyApplication.getApplication().isLogin = true;
-                    AuthUtils.getInstance().pass(LoginActivity.this);
-                    finish();
+                    getUserInfo();
                 }else{
                     MyApplication.getApplication().isLogin = false;
                     Toast.makeText(LoginActivity.this,jo.getMsg(),Toast.LENGTH_SHORT).show();
@@ -170,7 +167,46 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(LoginActivity.this,R.string.register_fail,Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, R.string.register_fail, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void getUserInfo() {
+        UserInfo userInfo = UserInfoDao.getInstance().find();
+        RequestParams params = new RequestParams(HttpCommon.USER_INFO);
+        params.addHeader("uniquetoken", userInfo.getToken());
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                UserJSON jo = JSON.parseObject(result, UserJSON.class);
+                if (jo.getCode() == 0) {
+                    Config.getInstance().setUser(jo.getDatas());
+
+                    Intent intent = new Intent();
+                    setResult(RESPONSE_LOGIN_SUCC, intent);
+
+                    MyApplication.getApplication().isLogin = true;
+                    AuthUtils.getInstance().pass(LoginActivity.this);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, jo.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

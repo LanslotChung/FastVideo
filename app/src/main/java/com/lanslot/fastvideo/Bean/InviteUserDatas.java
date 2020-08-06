@@ -14,7 +14,7 @@ public class InviteUserDatas {
     private Boolean isFirstPage;
     private Boolean isLastPage;
     private long lastPage;
-    private ArrayList<InviteUser> inviteUser;
+    private ArrayList<InviteUser> list;
     private long navigateFirstPage;
     private long navigateLastPage;
     private long navigatePages;

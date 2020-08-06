@@ -29,15 +29,15 @@ public class DownloadUtils {
     private long downloadId;
     private String name;
     private String pathstr;
-
+    private String url;
     public DownloadUtils(Context context, String url, String name) {
         this.mContext = context;
-        downloadAPK(url, name);
+        this.url = url;
         this.name = name;
     }
 
     //下载apk
-    private void downloadAPK(String url, String name) {
+    public void startDownload() {
         //创建下载任务
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         //移动网络情况下是否允许漫游

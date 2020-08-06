@@ -1,22 +1,24 @@
 
 package com.lanslot.fastvideo.Bean;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class InviteUser {
 
     private long createTime;
-    private Object deviceInfo;
-    private Object expireTime;
-    private Object id;
+    private String deviceInfo;
+    private Date expireTime;
+    private Long id;
     private String inviteCode;
-    private Object inviteUrl;
-    private Object inviteUserId;
-    private Object level;
+    private String inviteUrl;
+    private Long inviteUserId;
+    private Integer level;
     private String mobile;
-    private Object password;
+    private String password;
     private long status;
-    private Object updateTime;
+    private Date updateTime;
 
 }

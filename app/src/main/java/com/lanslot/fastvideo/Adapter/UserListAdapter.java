@@ -1,59 +1,46 @@
 package com.lanslot.fastvideo.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.lanslot.fastvideo.Bean.InviteUser;
 import com.lanslot.fastvideo.Bean.MyContacts;
-import com.lanslot.fastvideo.Bean.User;
 import com.lanslot.fastvideo.R;
 
 import java.util.ArrayList;
 
-public class UserListAdapter extends BaseAdapter {
-    private ArrayList<User> users;
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
+    private ArrayList<InviteUser> users;
     private ArrayList<MyContacts> contacts;
     private boolean hasContacts = false;
+    private Context context;
 
-    public UserListAdapter(ArrayList<User> users, ArrayList<MyContacts> contacts) {
+    public UserListAdapter(Context context, ArrayList<InviteUser> users, ArrayList<MyContacts> contacts) {
         this.users = users;
         this.contacts = contacts;
         hasContacts = contacts != null && contacts.size() > 0;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public UserListAdapter.UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_invite_user, parent, false);
+        return new UserListAdapter.UserViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return users==null?0:users.size();
-    }
-
-    @Override
-    public User getItem(int position) {
-        return users==null?null:users.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return getItem(position) == null?0:getItem(position).getId();
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        UserHolder holder = null;
-        if(convertView == null){
-            convertView =LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_invite_user, parent, false);
-            TextView name = convertView.findViewById(R.id.username);
-            TextView mobile = convertView.findViewById(R.id.mobile);
-            ImageView status = convertView.findViewById(R.id.subscribe_status);
-            holder = new UserHolder(name,mobile,status);
-            convertView.setTag(holder);
-        }
-        holder = (UserHolder) convertView.getTag();
-        holder.mobile.setText(getItem(position).getMobile());
+    public void onBindViewHolder(@NonNull UserListAdapter.UserViewHolder holder, int position) {
+        holder.mobile.setText(users.get(position).getMobile());
         int imgId = R.drawable.unsubscriber;
-        switch(getItem(position).getLevel()){
+        switch (users.get(position).getLevel()) {
             case 0:
                 imgId = R.drawable.unsubscriber;
                 break;
@@ -63,30 +50,41 @@ public class UserListAdapter extends BaseAdapter {
             case 2:
                 imgId = R.drawable.subscriber_forever;
         }
-        holder.status.setImageResource(imgId);
+        holder.level.setImageResource(imgId);
         if(hasContacts){
-            UserHolder finalHolder = holder;
+            UserListAdapter.UserViewHolder finalHolder = holder;
             contacts.forEach(contact -> {
-                if(contact.getPhone().equals(getItem(position).getMobile())){
-                    if(!contact.getNote().isEmpty())
+                if (contact.getPhone().equals(users.get(position).getMobile())) {
+                    if (contact.getNote() != null && !contact.getNote().isEmpty())
                         finalHolder.name.setText(contact.getNote());
-                    if(!contact.getName().isEmpty())
+                    if (contact.getName() != null && !contact.getName().isEmpty())
                         finalHolder.name.setText(contact.getName());
                 }
             });
         }
-        return convertView;
+
     }
 
-    class UserHolder{
+    @Override
+    public int getItemCount() {
+        return users.size();
+    }
+
+    public void loadMore(ArrayList<InviteUser> newInviteUser) {
+        users.addAll(newInviteUser);
+        notifyDataSetChanged();
+    }
+
+    class UserViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView mobile;
-        ImageView status;
+        ImageView level;
 
-        public UserHolder(TextView name, TextView mobile, ImageView status) {
-            this.name = name;
-            this.mobile = mobile;
-            this.status = status;
+        public UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.username);
+            mobile = itemView.findViewById(R.id.mobile);
+            level = itemView.findViewById(R.id.subscribe_status);
         }
     }
 }

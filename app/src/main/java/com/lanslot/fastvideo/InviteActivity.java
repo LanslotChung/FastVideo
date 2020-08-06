@@ -1,10 +1,5 @@
 package com.lanslot.fastvideo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -19,16 +14,22 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.king.zxing.util.CodeUtils;
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Adapter.UserListAdapter;
 import com.lanslot.fastvideo.Bean.Config;
-import com.lanslot.fastvideo.Bean.JSON.UserGroupJSON;
+import com.lanslot.fastvideo.Bean.JSON.InviteGroupJSON;
 import com.lanslot.fastvideo.Bean.MyContacts;
 import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
@@ -36,13 +37,16 @@ import com.lanslot.fastvideo.Utils.ActionBarUtils;
 import com.lanslot.fastvideo.Utils.BitmapUtils;
 import com.lanslot.fastvideo.Utils.ContactUtils;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RFACLabelItem;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RapidFloatingActionContentLabelList;
 import com.wangjie.rapidfloatingactionbutton.util.RFABTextUtil;
-import com.yalantis.phoenix.PullToRefreshView;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -59,15 +63,20 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
     @ViewInject(R.id.invite_layout)
     private RapidFloatingActionLayout rfaLayout;
     @ViewInject(R.id.invite_list)
-    private ListView list;
+    private RecyclerView list;
     @ViewInject(R.id.nousers)
     private TextView nousers;
-    @ViewInject(R.id.pull_to_refresh)
-    private PullToRefreshView pullToRefreshView;
+    @ViewInject(R.id.refreshLayout)
+    private SmartRefreshLayout smartRefreshLayout;
 
     private RapidFloatingActionHelper rfabHelper;
 
+    int currentPage = 1;
+    boolean hasNextPage = true;
+
     ArrayList<MyContacts> allContacts;
+    private UserListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +127,8 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
                 menu,
                 rfaContent
         ).build();
+
+        addPermissByPermissionList(this, new String[]{"android.permission.READ_CONTACTS"}, 0);
     }
 
     @Override
@@ -187,6 +198,7 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
             }
             if (mPermissionList.isEmpty()) {  //非初次进入App且已授权
                 showContacts();
+                requestUserGroups();
             } else {
                 //请求权限方法
                 String[] permissionsNew = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
@@ -226,18 +238,61 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
     private void requestUserGroups(){
         RequestParams params = new RequestParams(HttpCommon.USER_GROUP);
         params.addHeader("uniquetoken", UserInfoDao.getInstance().find().getToken());
+        params.addBodyParameter("pageNum", currentPage);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                UserGroupJSON jo = JSON.parseObject(result,UserGroupJSON.class);
-                if(jo.getCode() == 0 && jo.getDatas() != null && jo.getDatas().size() > 0){
+                InviteGroupJSON jo = JSON.parseObject(result, InviteGroupJSON.class);
+                if (jo.getCode() == 0 && jo.getDatas() != null && jo.getDatas().getList() != null && jo.getDatas().getList().size() > 0) {
                     nousers.setVisibility(View.GONE);
-                    pullToRefreshView.setVisibility(View.VISIBLE);
-                    list.setAdapter(new UserListAdapter(jo.getDatas(),allContacts));
+                    smartRefreshLayout.setVisibility(View.VISIBLE);
+                    smartRefreshLayout.setRefreshHeader(new MaterialHeader(InviteActivity.this).setShowBezierWave(true));
+                    smartRefreshLayout.setRefreshFooter(new BallPulseFooter(InviteActivity.this).setSpinnerStyle(SpinnerStyle.Translate));
+
+                    adapter = new UserListAdapter(InviteActivity.this, jo.getDatas().getList(), allContacts);
+                    list.setLayoutManager(new LinearLayoutManager(InviteActivity.this));
+                    list.setAdapter(adapter);
+                    smartRefreshLayout.setEnableRefresh(false);
+                    smartRefreshLayout.setEnableLoadMore(jo.getDatas().getHasNextPage());
+                    smartRefreshLayout.setOnLoadMoreListener(srl -> {
+                        currentPage++;
+                        RequestParams params = new RequestParams(HttpCommon.USER_GROUP);
+                        params.addHeader("uniquetoken", UserInfoDao.getInstance().find().getToken());
+                        params.addBodyParameter("pageNum", currentPage);
+                        x.http().get(params, new Callback.CommonCallback<String>() {
+
+                            @Override
+                            public void onSuccess(String result) {
+                                InviteGroupJSON jo = JSON.parseObject(result, InviteGroupJSON.class);
+                                if (jo.getCode() == 0 && jo.getDatas() != null && jo.getDatas().getList() != null && jo.getDatas().getList().size() > 0) {
+                                    srl.finishLoadMore(true);
+                                    smartRefreshLayout.setEnableLoadMore(jo.getDatas().getHasNextPage());
+                                    adapter.loadMore(jo.getDatas().getList());
+                                } else {
+                                    srl.finishLoadMore(false);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable ex, boolean isOnCallback) {
+                                srl.finishLoadMore(false);
+                            }
+
+                            @Override
+                            public void onCancelled(CancelledException cex) {
+                                srl.finishLoadMore(false);
+                            }
+
+                            @Override
+                            public void onFinished() {
+
+                            }
+                        });
+                    });
                 }else{
                     nousers.setVisibility(View.VISIBLE);
-                    pullToRefreshView.setVisibility(View.GONE);
-                    Toast.makeText(InviteActivity.this,jo.getMsg(),Toast.LENGTH_SHORT).show();
+                    smartRefreshLayout.setVisibility(View.GONE);
+                    Toast.makeText(InviteActivity.this, jo.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
