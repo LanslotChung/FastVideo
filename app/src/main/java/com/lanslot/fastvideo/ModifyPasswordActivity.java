@@ -1,7 +1,5 @@
 package com.lanslot.fastvideo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,6 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
@@ -56,8 +56,11 @@ public class ModifyPasswordActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        back();
-        return false;
+        if (keyCode == event.KEYCODE_BACK) {
+            back();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void back(){

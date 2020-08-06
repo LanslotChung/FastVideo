@@ -59,8 +59,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        back();
-        return false;
+        if (keyCode == event.KEYCODE_BACK) {
+            back();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void back(){
@@ -75,25 +78,30 @@ public class LoginActivity extends AppCompatActivity {
         String rc = regcode.getText().toString();
         if(!RegUtils.isPhoneNumber(un)){
             username.startAnimation(shakeAnim);
-            Toast.makeText(this,R.string.error_username,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_username, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(pw.length() < 6 || pw.length() >= 11){
+        if (pw.length() < 6 || pw.length() >= 11) {
             password.startAnimation(shakeAnim);
-            Toast.makeText(this,R.string.error_password,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_password, Toast.LENGTH_SHORT).show();
             return;
         }
-        login(un,pw);
+        login(un, pw);
+    }
+
+    @Event(R.id.password)
+    private void onPasswordInputChanged() {
+
     }
 
     @Event(R.id.register)
-    private void onRegisterButtonClicked(View v){
+    private void onRegisterButtonClicked(View v) {
         String un = username.getText().toString();
         String pw = password.getText().toString();
         String rc = regcode.getText().toString();
-        if(!RegUtils.isPhoneNumber(un)){
+        if (!RegUtils.isPhoneNumber(un)) {
             username.startAnimation(shakeAnim);
-            Toast.makeText(this,R.string.error_username,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_username, Toast.LENGTH_SHORT).show();
             return;
         }
         if(!RegUtils.isPassWord(pw)){

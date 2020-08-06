@@ -1,11 +1,10 @@
 package com.lanslot.fastvideo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
@@ -32,14 +31,14 @@ public class UserAgreementActivity extends AppCompatActivity {
                 getSupportActionBar(),
                 R.layout.layout_actionbar);
 
-        actionBar.findViewById(R.id.actionbar_layout).setBackgroundResource(R.color.paleturquoise);
+        actionBar.findViewById(R.id.actionbar_layout).setBackgroundResource(R.color.sandybrown);
         actionBar.findViewById(R.id.back).setOnClickListener(v -> {
             AuthUtils.getInstance().clear();
             finish();
         });
         ((TextView) actionBar.findViewById(R.id.title)).setText("用户协议");
 
-        StatusBarUtil.setStatusBarColor(this, R.color.paleturquoise);
+        StatusBarUtil.setStatusBarColor(this, R.color.sandybrown);
         RichText.initCacheDir(this);
         RichText.from(getResources().getString(R.string.user_agreement_content))
                 .bind(this)

@@ -69,6 +69,8 @@ public class SelfFragment extends Fragment {
     TextView expireText;
     @ViewInject(R.id.logout)
     Button logout;
+    @ViewInject(R.id.modify_password)
+    RelativeLayout modifyPasswordButton;
 
     @Nullable
     @Override
@@ -98,6 +100,7 @@ public class SelfFragment extends Fragment {
             logout.setVisibility(View.GONE);
             loginPanel.setVisibility(View.VISIBLE);
             userPanel.setVisibility(View.GONE);
+            modifyPasswordButton.setVisibility(View.GONE);
         }
     }
 
@@ -197,6 +200,7 @@ public class SelfFragment extends Fragment {
         loginPanel.setVisibility(View.GONE);
         userPanel.setVisibility(View.VISIBLE);
         logout.setVisibility(View.VISIBLE);
+        modifyPasswordButton.setVisibility(View.VISIBLE);
         User user = Config.getInstance().getUser();
         tx_mobile.setText(user.getMobile());
 
