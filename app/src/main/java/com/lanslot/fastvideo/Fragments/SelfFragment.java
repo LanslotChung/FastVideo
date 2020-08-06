@@ -1,18 +1,12 @@
 package com.lanslot.fastvideo.Fragments;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +25,6 @@ import com.lanslot.fastvideo.Bean.Config;
 import com.lanslot.fastvideo.Bean.JSON.StringDataJSON;
 import com.lanslot.fastvideo.Bean.JSON.UserJSON;
 import com.lanslot.fastvideo.Bean.User;
-import com.lanslot.fastvideo.CheckUpdateActivity;
 import com.lanslot.fastvideo.CommonQuestionActivity;
 import com.lanslot.fastvideo.DB.UserInfo;
 import com.lanslot.fastvideo.DB.UserInfoDao;
@@ -40,7 +33,7 @@ import com.lanslot.fastvideo.InviteActivity;
 import com.lanslot.fastvideo.LoginActivity;
 import com.lanslot.fastvideo.ModifyPasswordActivity;
 import com.lanslot.fastvideo.MyApplication;
-import com.lanslot.fastvideo.PuchaseActivity;
+import com.lanslot.fastvideo.PurchaseActivity;
 import com.lanslot.fastvideo.R;
 import com.lanslot.fastvideo.Utils.DownloadUtils;
 import com.lanslot.fastvideo.Utils.PackageUtils;
@@ -54,8 +47,7 @@ import org.xutils.x;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import static android.content.Context.DOWNLOAD_SERVICE;
+import java.util.Date;
 
 
 @ContentView(R.layout.fragment_self)
@@ -109,7 +101,7 @@ public class SelfFragment extends Fragment {
 
     @Event(R.id.puchase_button)
     private void onPuchaseButtonClicked(View v) {
-        AuthUtils.getInstance().startActivity(getActivity(), PuchaseActivity.class, null);
+        AuthUtils.getInstance().startActivity(getActivity(), PurchaseActivity.class, null);
     }
 
     @Event(R.id.common_question_button)
@@ -137,7 +129,9 @@ public class SelfFragment extends Fragment {
                             .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    DownloadUtils.downloadApk(getActivity(),url);
+                                    Toast.makeText(getActivity(), R.string.start_update, Toast.LENGTH_LONG).show();
+                                    String apkName = "fastvideo-" + new Date().getTime() + ".apk";
+                                    new DownloadUtils(getActivity(), url, apkName);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

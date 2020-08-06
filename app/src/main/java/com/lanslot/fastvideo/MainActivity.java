@@ -35,6 +35,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -122,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    DownloadUtils.downloadApk(MainActivity.this,url);
+                                    Toast.makeText(MainActivity.this, R.string.start_update, Toast.LENGTH_LONG).show();
+                                    String apkName = "fastvideo-" + new Date().getTime() + ".apk";
+                                    new DownloadUtils(MainActivity.this, url, apkName);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

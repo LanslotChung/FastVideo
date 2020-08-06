@@ -233,7 +233,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/logo_charge"
-                android:text="@string/puchase" />
+                android:text="@string/purchase" />
 
             <ImageView
                 android:layout_width="20dp"

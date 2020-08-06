@@ -1,11 +1,11 @@
 package com.lanslot.fastvideo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
@@ -17,8 +17,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_puchase)
-public class PuchaseActivity extends AppCompatActivity {
+@ContentView(R.layout.activity_purchase)
+public class PurchaseActivity extends AppCompatActivity {
     @ViewInject(R.id.richtext)
     TextView richtext;
 

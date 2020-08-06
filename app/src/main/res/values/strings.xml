@@ -21,7 +21,7 @@
     <string name="common_question">常见问题</string>
     <string name="password_modify">修改密码</string>
     <string name="clear_cache">清理缓存</string>
-    <string name="puchase">订阅会员</string>
+    <string name="purchase">订阅会员</string>
     <string name="update">检查更新</string>
     <string name="about_us">关于我们</string>
     <string name="lbl_login">用户登录</string>
@@ -50,5 +50,6 @@
     <string name="dont_notice">不要再提醒我</string>
     <string name="access_server_fail">访问服务器数据失败</string>
     <string name="update_need_no">当前已是最新版本，无需更新</string>
+    <string name="start_update">开始下载更新</string>
     <string name="change_router">切换线路</string>
 </resources>
