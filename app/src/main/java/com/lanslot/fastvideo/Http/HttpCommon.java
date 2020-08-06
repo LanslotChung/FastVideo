@@ -2,8 +2,8 @@ package com.lanslot.fastvideo.Http;
 
 public class HttpCommon {
 
-//    static public final String URL = "http://39.103.133.210:8888/egv";
-   static public final String URL = "http://192.168.3.7:8888/egv";
+   static public final String URL = "http://39.103.133.210:8888/egv";
+  // static public final String URL = "http://192.168.3.7:8888/egv";
     static public final String LOGIN = URL + "/user/login";
     static public final String FORGET_PASSWORD = URL + "/user/forgetPassword";
     static public final String LOGOUT = URL + "/user/logout";
