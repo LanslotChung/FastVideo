@@ -6,7 +6,6 @@ import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.AOP.Authority.LoginAuthority;
 import com.lanslot.fastvideo.Bean.JSON.SettingJSON;
 import com.lanslot.fastvideo.Bean.Setting;
-import com.lanslot.fastvideo.Utils.PackageUtils;
 
 import org.xutils.x;
 
@@ -31,8 +30,10 @@ public class MyApplication extends Application {
         x.Ext.init(this);
         x.Ext.setDebug(true);
         instance = this;
-        AuthUtils.getInstance().addAuthority(LoginAuthority.class,InviteActivity.class);
-        AuthUtils.getInstance().addAuthority(LoginAuthority.class, ModifyPasswordActivity.class);
+        AuthUtils.getInstance().addAuthority(LoginAuthority.class,
+                InviteActivity.class,
+                ModifyPasswordActivity.class,
+                WebViewActivity.class);
     }
 
     public static MyApplication getApplication() {
