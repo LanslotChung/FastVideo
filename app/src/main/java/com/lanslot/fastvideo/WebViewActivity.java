@@ -82,12 +82,15 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            Toast.makeText(this, R.string.noback, Toast.LENGTH_SHORT).show();
-        }
-        return false;
+        if (keyCode == event.KEYCODE_BACK) {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            } else {
+                Toast.makeText(this, R.string.noback, Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        } else
+            return super.onKeyDown(keyCode, event);
     }
 
     @Override

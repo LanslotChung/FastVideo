@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     tools:context="com.lanslot.fastvideo.MainActivity">
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="100dp"
@@ -28,9 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/app_name"
@@ -45,12 +45,30 @@
             android:id="@+id/version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/shape_version_background"
             android:gravity="center"
             android:padding="5dp"
             android:text="v1.0"
-            android:layout_marginLeft="10dp"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
     </LinearLayout>
+
+    <com.lanslot.fastvideo.Views.CountDownView
+        android:id="@+id/cd_view3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:cd_animator_time="3"
+        app:cd_animator_time_unit="秒"
+        app:cd_arc_color="@color/white"
+        app:cd_arc_width="2dp"
+        app:cd_bg_color="@color/darkgrey"
+        app:cd_circle_radius="30dp"
+        app:cd_location="left"
+        app:cd_retreat_type="forward"
+        app:cd_text_color="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        app:cd_text_size="14sp" />
 </RelativeLayout>

@@ -207,6 +207,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return false;
+        if (keyCode == event.KEYCODE_BACK)
+            return false;
+        else
+            return super.onKeyDown(keyCode, event);
     }
 }
