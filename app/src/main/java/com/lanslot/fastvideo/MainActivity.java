@@ -6,12 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -34,21 +31,14 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
-
     @ViewInject(R.id.navbar)
     private BottomNavigationBar navBar;
     @ViewInject(R.id.view_container)
     private ViewPager container;
-    @ViewInject(R.id.main_view)
-    LinearLayout mainView;
-
-    private FragmentManager fragmentManager;
-    private ArrayList<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new SelfFragment());
         container.setAdapter(adapter);
         Intent intent = getIntent();
-        if(intent.getBooleanExtra("self",false)){
+        if (intent.getBooleanExtra("self", false)) {
             container.setCurrentItem(1);
-        }else {
+        } else {
             container.setCurrentItem(0);
         }
     }
@@ -156,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBottomNavBar() {
-        navBar.addItem(new BottomNavigationItem(R.drawable.index,"首页")
-                    .setInActiveColorResource(R.color.darkgray)
-                    .setActiveColorResource(R.color.colorPrimary))
+        navBar.addItem(new BottomNavigationItem(R.drawable.index, "首页")
+                .setInActiveColorResource(R.color.darkgray)
+                .setActiveColorResource(R.color.colorPrimary))
 
-                .addItem(new BottomNavigationItem(R.drawable.self,"我的")
+                .addItem(new BottomNavigationItem(R.drawable.self, "我的")
                         .setInActiveColorResource(R.color.darkgray)
                         .setActiveColorResource(R.color.gold))
                 .setFirstSelectedPosition(0)
@@ -171,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
         navBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
-                        StatusBarUtil.setStatusBarColor(MainActivity.this,R.color.colorPrimary);
+                        StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.colorPrimary);
                         break;
                     case 1:
-                        StatusBarUtil.setStatusBarColor(MainActivity.this,R.color.gold);
+                        StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.gold);
                         break;
                 }
                 container.setCurrentItem(position);
