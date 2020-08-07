@@ -60,6 +60,15 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="purchase_mode">请通过支付宝/微信订阅我们的会员</string>
     <string name="loading">正在启动...</string>
+    <string name="purchase_tips">tips：转账请备注您注册时的手机号以及您订阅的套餐类型</string>
+    <string name="disclaimer">免责声明</string>
+    <string name="ailipay">支付宝</string>
+    <string name="wechat">微信</string>
+
+    <string name="disclaimer_content">本站所有视频均来自互联网，
+        版权归原创者所有，如果侵犯了您的权益，请通知我们，
+        我们将在3个正常工作日内删除其侵权内容，谢谢合作。
+    </string>
     <string name="user_agreement_content">
         <![CDATA[
         <p>请您本产品之前，请务必仔细阅读并理解《用户许可使用协议》（以下简称“本协议”）中规定的多有权利和限制。
