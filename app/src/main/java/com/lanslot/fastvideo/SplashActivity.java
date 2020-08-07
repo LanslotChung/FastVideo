@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        version.setText(PackageUtils.getVersion(this));
+        version.setText("v" + PackageUtils.getVersion(this));
         countDownView.start();
         countDownView.setOnLoadingFinishListener(() -> {
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
