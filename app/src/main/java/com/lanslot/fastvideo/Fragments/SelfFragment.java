@@ -128,7 +128,7 @@ public class SelfFragment extends Fragment {
                 if (jo.getCode() == 0) {
                     Toast.makeText(getActivity(), R.string.update_need_no, Toast.LENGTH_SHORT).show();
                 } else {
-                    String url = "https://ucan.25pp.com/Wandoujia_web_seo_baidu_homepage.apk";//jo.getDatas();
+                    String url = jo.getDatas();
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity()).setIcon(R.drawable.mainlogo).setTitle("版本更新")
                             .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
