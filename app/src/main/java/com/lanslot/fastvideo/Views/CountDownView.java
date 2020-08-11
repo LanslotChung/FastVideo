@@ -173,7 +173,7 @@ public class CountDownView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int time = (int) valueAnimator.getAnimatedValue();
-                mText = time + mLoadingTimeUnit;
+                mText = "跳过";//time + mLoadingTimeUnit;
             }
         });
         AnimatorSet set = new AnimatorSet();
