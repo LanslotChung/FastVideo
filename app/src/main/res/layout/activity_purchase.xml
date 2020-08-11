@@ -41,7 +41,29 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:textSize="10sp"
+                android:text="@string/longcliked" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="27dp"
+                android:textSize="10sp"
+                android:text="@string/longcliked" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
+                android:textColor="@color/black"
                 android:text="@string/ailipay" />
 
             <TextView
@@ -49,28 +71,30 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="67dp"
+                android:textColor="@color/black"
                 android:text="@string/wechat" />
 
         </RelativeLayout>
 
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="@string/purchase_mode"
-            android:textSize="22sp" />
+            android:textColor="@color/black"
+            android:textSize="19sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:text="@string/purchase_tips"
-            android:textSize="22sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +120,6 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <ImageView

@@ -64,6 +64,7 @@
     <string name="disclaimer">免责声明</string>
     <string name="ailipay">支付宝</string>
     <string name="wechat">微信</string>
+    <string name="longcliked">（长按保存二维码扫一扫）</string>
 
     <string name="disclaimer_content">本站所有视频均来自互联网，
         版权归原创者所有，如果侵犯了您的权益，请通知我们，

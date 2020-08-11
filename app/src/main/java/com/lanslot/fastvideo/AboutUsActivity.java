@@ -47,7 +47,7 @@ public class AboutUsActivity extends AppCompatActivity {
         ((TextView) actionBar.findViewById(R.id.title)).setText("关于我们");
 
         StatusBarUtil.setStatusBarColor(this, R.color.sandybrown);
-        versionCode.setText(PackageUtils.getVersion(AboutUsActivity.this));
+        versionCode.setText("V"+PackageUtils.getVersion(AboutUsActivity.this));
 
     }
     @Event(R.id.userAgreement)

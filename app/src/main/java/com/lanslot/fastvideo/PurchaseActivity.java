@@ -135,6 +135,7 @@ public class PurchaseActivity extends AppCompatActivity {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(PurchaseActivity.this, PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
+            return true;
         }
         try {
             outStream = new FileOutputStream(file);

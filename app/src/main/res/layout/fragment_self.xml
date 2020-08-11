@@ -267,7 +267,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/logo_update"
                 android:text="@string/update" />
-
+            <ImageView
+                android:id="@+id/new_version"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/new_version"/>
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"

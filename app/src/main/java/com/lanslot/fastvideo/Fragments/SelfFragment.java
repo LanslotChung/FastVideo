@@ -31,6 +31,7 @@ import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
 import com.lanslot.fastvideo.InviteActivity;
 import com.lanslot.fastvideo.LoginActivity;
+import com.lanslot.fastvideo.MainActivity;
 import com.lanslot.fastvideo.ModifyPasswordActivity;
 import com.lanslot.fastvideo.MyApplication;
 import com.lanslot.fastvideo.PurchaseActivity;
@@ -71,6 +72,8 @@ public class SelfFragment extends Fragment {
     Button logout;
     @ViewInject(R.id.modify_password)
     RelativeLayout modifyPasswordButton;
+    @ViewInject(R.id.new_version)
+    ImageView newVersion;
 
     @Nullable
     @Override
@@ -81,6 +84,7 @@ public class SelfFragment extends Fragment {
                 getUserInfo();
             }
         }
+        doCheckUpdate();
         return view;
     }
 
@@ -136,6 +140,7 @@ public class SelfFragment extends Fragment {
                                     Toast.makeText(getActivity(), R.string.start_update, Toast.LENGTH_LONG).show();
                                     String apkName = "fastvideo-" + new Date().getTime() + ".apk";
                                     new DownloadUtils(getActivity(), url, apkName).startDownload();
+                                    newVersion.setVisibility(View.GONE);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -258,5 +263,38 @@ public class SelfFragment extends Fragment {
             }
         });
     }
+    private void doCheckUpdate() {
+        String versionCode = "";
+        versionCode = PackageUtils.getVersion(getActivity());
+        RequestParams params = new RequestParams(HttpCommon.CHECK_VERSION);
+        params.addQueryStringParameter("versionName", versionCode);
+        params.addQueryStringParameter("type", "1");
+        x.http().get(params, new Callback.CommonCallback<String>() {
 
+            @Override
+            public void onSuccess(String result) {
+                StringDataJSON jo = JSON.parseObject(result, StringDataJSON.class);
+                if (jo.getCode() == 0) {
+                    newVersion.setVisibility(View.GONE);
+                }else {
+                    newVersion.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }
