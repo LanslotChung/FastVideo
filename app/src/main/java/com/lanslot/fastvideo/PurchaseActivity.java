@@ -112,7 +112,7 @@ public class PurchaseActivity extends AppCompatActivity {
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
         PurchaseActivity.this.sendBroadcast(intent);
-        Toast.makeText(PurchaseActivity.this,file.getPath(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(PurchaseActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
         return true;
     }
 
@@ -142,7 +142,7 @@ public class PurchaseActivity extends AppCompatActivity {
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
         PurchaseActivity.this.sendBroadcast(intent);
-        Toast.makeText(PurchaseActivity.this,file.getPath(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(PurchaseActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
         return true;
     }
     @Override

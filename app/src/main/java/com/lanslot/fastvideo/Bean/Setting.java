@@ -14,7 +14,6 @@ public class Setting {
     private Date updateTime;
 
     public enum Key {
-        USER_RECHANG_URL,
         INTERFACE_MOVICE_URL,
         VIP_USER_MONTH,
         VIP_USER_OVER,
