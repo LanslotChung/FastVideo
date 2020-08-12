@@ -13,6 +13,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 @ContentView(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -27,13 +29,18 @@ public class SplashActivity extends AppCompatActivity {
         x.view().inject(this);
         version.setText("v" + PackageUtils.getVersion(this));
         countDownView.start();
+        AtomicBoolean isGoto = new AtomicBoolean(false);
         countDownView.setOnLoadingFinishListener(() -> {
+            if (isGoto.get()) return;
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             SplashActivity.this.finish();
         });
         countDownView.setOnClickListener((view) -> {
-
+            isGoto.set(true);
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            SplashActivity.this.finish();
         });
     }
 }

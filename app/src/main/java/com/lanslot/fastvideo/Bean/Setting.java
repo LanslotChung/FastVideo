@@ -20,6 +20,8 @@ public class Setting {
         VIP_USER_OVER,
         USER_SHARE_URL,
         USER_INTEGRAL_PRIZE,
-        USER_EXTEND_DAY
+        USER_EXTEND_DAY,
+        USER_RECHANG_WX_URL,
+        USER_RECHANG_ZFB_URL
     }
 }

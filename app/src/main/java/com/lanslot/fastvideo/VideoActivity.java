@@ -3,6 +3,7 @@ package com.lanslot.fastvideo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -12,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lanslot.fastvideo.Bean.Setting;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.BottomListPopupView;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.sdk.WebView;
+import com.ycbjie.webviewlib.client.JsX5WebViewClient;
 import com.ycbjie.webviewlib.view.X5WebView;
 
 import org.xutils.view.annotation.ContentView;
@@ -41,7 +45,11 @@ public class VideoActivity extends AppCompatActivity {
 //        actionBar = ActionBarUtils.getInstance().setCustomActionBar(this, getSupportActionBar(), R.layout.layout_video_actionbar);
         getSupportActionBar().hide();
         actionBar.findViewById(R.id.back).setOnClickListener(v -> {
-            finish();
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            } else {
+                finish();
+            }
         });
         actionBar.findViewById(R.id.change_router).setOnClickListener(v -> {
             menuView.show();
@@ -63,6 +71,20 @@ public class VideoActivity extends AppCompatActivity {
         video = getIntent().getBundleExtra("data").getString("video");
         mWebView.loadUrl(currentRouter + video);
 
+        mWebView.setWebViewClient(new JsX5WebViewClient(mWebView, this) {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest webResourceRequest) {
+                String url = webResourceRequest.getUrl().toString();
+                for (String router : routers) {
+                    if (url.startsWith(router)) {
+                        return super.shouldOverrideUrlLoading(webView, webResourceRequest);
+                    }
+                }
+                return true;
+                //return super.shouldOverrideUrlLoading(webView, webResourceRequest);
+            }
+        });
+
         SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
         boolean dont_notice = sharedPreferences.getBoolean("dont_notice_video", false);
         if (dont_notice) {
@@ -82,6 +104,19 @@ public class VideoActivity extends AppCompatActivity {
     @Event(R.id.iknow)
     private void onIKnowButtonClicked(View v) {
         introPanel.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == event.KEYCODE_BACK) {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            } else {
+                finish();
+            }
+            return false;
+        } else
+            return super.onKeyDown(keyCode, event);
     }
 
     @Override
