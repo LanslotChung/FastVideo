@@ -8,18 +8,19 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:layout_marginTop="50dp">
 
         <ImageView
             android:id="@+id/alipayImg"
             android:layout_width="166dp"
+            android:layout_marginLeft="7dp"
             android:layout_height="match_parent"
             android:src="@drawable/ewm" />
 
         <ImageView
             android:id="@+id/wechatImg"
-            android:layout_width="153dp"
+            android:layout_width="166dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
@@ -62,7 +63,7 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="67dp"
                 android:textColor="@color/black"
                 android:text="@string/ailipay" />
 
@@ -70,7 +71,7 @@ tools:context="com.lanslot.fastvideo.PurchaseActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="67dp"
+                android:layout_marginRight="70dp"
                 android:textColor="@color/black"
                 android:text="@string/wechat" />
 
