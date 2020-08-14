@@ -31,7 +31,6 @@ import com.lanslot.fastvideo.DB.UserInfoDao;
 import com.lanslot.fastvideo.Http.HttpCommon;
 import com.lanslot.fastvideo.InviteActivity;
 import com.lanslot.fastvideo.LoginActivity;
-import com.lanslot.fastvideo.MainActivity;
 import com.lanslot.fastvideo.ModifyPasswordActivity;
 import com.lanslot.fastvideo.MyApplication;
 import com.lanslot.fastvideo.PurchaseActivity;
@@ -209,8 +208,7 @@ public class SelfFragment extends Fragment {
         User user = Config.getInstance().getUser();
         tx_mobile.setText(user.getMobile());
 
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        expireText.setText(df.format(user.getExpireTime()));
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         int imgId = R.drawable.unsubscriber;
         switch (user.getLevel()) {
@@ -220,12 +218,20 @@ public class SelfFragment extends Fragment {
                 expireText.setText(R.string.unsubscribe_status);
                 break;
             case 1:
-                imgId = R.drawable.subscriber;
-                statusText.setText(R.string.subscribe_status);
+                if (user.getExpireTime().after(new Date())) {
+                    imgId = R.drawable.subscriber;
+                    statusText.setText(R.string.subscribe_status);
+                    expireText.setText(df.format(user.getExpireTime()));
+                } else {
+                    imgId = R.drawable.unsubscriber;
+                    statusText.setText(R.string.subscribe_expire);
+                    expireText.setText(df.format(user.getExpireTime()));
+                }
                 break;
             case 2:
                 imgId = R.drawable.subscriber_forever;
                 statusText.setText(R.string.forever_subscribe_status);
+                expireText.setText(df.format(user.getExpireTime()));
         }
         statusImage.setImageResource(imgId);
         MyApplication.getApplication().isLogin = true;

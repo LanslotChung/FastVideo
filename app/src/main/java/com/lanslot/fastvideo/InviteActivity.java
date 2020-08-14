@@ -77,6 +77,12 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
     ArrayList<MyContacts> allContacts;
     private UserListAdapter adapter;
 
+    ClipboardManager cm;
+    ClipData clipData;
+    Bitmap qrCode;
+    Bitmap poster;
+    Canvas canvas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,23 +140,25 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
     @Override
     public void onRFACItemLabelClick(int position, RFACLabelItem item) {
         int id = (Integer) item.getWrapper();
-        switch (id){
+        switch (id) {
             case 0://邀请码
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("邀请码","我的邀请码"+Config.getInstance().getUser().getInviteCode());
+                if (cm == null)
+                    cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipData = ClipData.newPlainText("邀请码", "我的邀请码" + Config.getInstance().getUser().getInviteCode());
                 cm.setPrimaryClip(clipData);
-                Toast.makeText(this,"邀请码已复制，你可以分享给您的好友了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "邀请码已复制，你可以分享给您的好友了", Toast.LENGTH_SHORT).show();
                 break;
             case 1://postcard
-                Bitmap qrCode = CodeUtils.createQRCode(
-                        Config.getInstance().getUser().getInviteUrl(),
-                        1500,
-                        BitmapUtils.drawableToBitmap(getDrawable(R.drawable.mainlogo)));
-                Bitmap poster = BitmapUtils.drawableToBitmap(getDrawable(R.drawable.poster));
-                Canvas canvas = new Canvas(poster);
-                canvas.drawBitmap(qrCode,(canvas.getWidth() - qrCode.getWidth()) / 2,canvas.getHeight() - qrCode.getHeight() - 300,null);
-
-                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), poster, null,null));
+                if (poster == null) {
+                    qrCode = CodeUtils.createQRCode(
+                            Config.getInstance().getUser().getInviteUrl(),
+                            1500,
+                            BitmapUtils.drawableToBitmap(getDrawable(R.drawable.mainlogo)));
+                    poster = BitmapUtils.drawableToBitmap(getDrawable(R.drawable.poster));
+                    canvas = new Canvas(poster);
+                    canvas.drawBitmap(qrCode, (canvas.getWidth() - qrCode.getWidth()) / 2, canvas.getHeight() - qrCode.getHeight() - 300, null);
+                }
+                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), poster, null, null));
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);//设置分享行为
                 intent.setType("image/*");//设置分享内容的类型
@@ -159,13 +167,14 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
                 startActivity(intent);
                 break;
             case 2://url
-                ClipboardManager cm1 = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData1 = ClipData.newPlainText("邀请链接",
+                if (cm == null)
+                    cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipData = ClipData.newPlainText("邀请链接",
                         "看视频，免广告！尽在快看视频！这是我的邀请链接:"
-                                +Config.getInstance().getUser().getInviteUrl()
+                                + Config.getInstance().getUser().getInviteUrl()
                                 + ",现在下载，马上体验全网免广告观看视频");
-                cm1.setPrimaryClip(clipData1);
-                Toast.makeText(this,"邀请链接已生成，你可以分享给您的好友了",Toast.LENGTH_SHORT).show();
+                cm.setPrimaryClip(clipData);
+                Toast.makeText(this, "邀请链接已生成，你可以分享给您的好友了", Toast.LENGTH_SHORT).show();
                 break;
         }
         rfabHelper.toggleContent();

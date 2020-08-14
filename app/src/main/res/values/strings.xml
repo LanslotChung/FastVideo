@@ -10,6 +10,7 @@
     <string name="phone_number">137XXXXXXXX</string>
     <string name="unsubscribe_status">未订阅</string>
     <string name="subscribe_status">已订阅</string>
+    <string name="subscribe_expire">订阅已过期</string>
     <string name="forever_subscribe_status">永久订阅</string>
     <string name="lbl_subscribe_date">订阅到期：</string>
     <string name="subscribe_date">2020-01-01</string>
