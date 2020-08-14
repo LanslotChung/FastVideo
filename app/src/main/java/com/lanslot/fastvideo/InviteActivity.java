@@ -128,7 +128,7 @@ public class InviteActivity extends AppCompatActivity implements RapidFloatingAc
                 rfaContent
         ).build();
 
-        addPermissByPermissionList(this, new String[]{"android.permission.READ_CONTACTS"}, 0);
+        addPermissByPermissionList(this, new String[]{"android.permission.READ_CONTACTS", "android.permission.WRITE_EXTERNAL_STORAGE"}, 0);
     }
 
     @Override

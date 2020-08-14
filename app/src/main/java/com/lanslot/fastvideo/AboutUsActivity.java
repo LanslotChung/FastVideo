@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lanslot.fastvideo.AOP.Authority.AuthUtils;
 import com.lanslot.fastvideo.Utils.ActionBarUtils;
-import com.lanslot.fastvideo.Utils.DownloadUtils;
 import com.lanslot.fastvideo.Utils.PackageUtils;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
 import com.zzhoujay.richtext.RichText;
@@ -21,8 +19,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.util.Date;
 
 @ContentView(R.layout.activity_about_us)
 public class AboutUsActivity extends AppCompatActivity {
@@ -47,7 +43,7 @@ public class AboutUsActivity extends AppCompatActivity {
         ((TextView) actionBar.findViewById(R.id.title)).setText("关于我们");
 
         StatusBarUtil.setStatusBarColor(this, R.color.sandybrown);
-        versionCode.setText("V"+PackageUtils.getVersion(AboutUsActivity.this));
+        versionCode.setText("v" + PackageUtils.getVersion(AboutUsActivity.this));
 
     }
     @Event(R.id.userAgreement)

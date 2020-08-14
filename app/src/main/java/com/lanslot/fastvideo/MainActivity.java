@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initBottomNavBar();
         initViewpager();
-        doCheckUpdate();
-        requestSettings();
+        if (!MyApplication.getApplication().isInit) {
+            doCheckUpdate();
+            requestSettings();
+        }
     }
 
     private void requestSettings() {
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 SettingJSON jo = JSON.parseObject(result, SettingJSON.class);
                 if (jo.getCode() == 0) {
                     MyApplication.setSettings(jo);
+                    MyApplication.getApplication().isInit = true;
                 } else {
                     Toast.makeText(MainActivity.this, jo.getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 StringDataJSON jo = JSON.parseObject(result, StringDataJSON.class);
                 if (jo.getCode() == 0) {
-                    Toast.makeText(MainActivity.this, R.string.update_need_no, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, R.string.update_need_no, Toast.LENGTH_SHORT).show();
                 } else {
                     String url = jo.getDatas();
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.mainlogo).setTitle("版本更新")

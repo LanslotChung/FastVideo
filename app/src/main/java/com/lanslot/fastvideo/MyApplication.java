@@ -13,7 +13,7 @@ public class MyApplication extends Application {
     public boolean isLogin;
     static private MyApplication instance;
     static private SettingJSON settings;
-
+    public boolean isInit = false;
 
     public static String getApkName() {
         return apkName;
