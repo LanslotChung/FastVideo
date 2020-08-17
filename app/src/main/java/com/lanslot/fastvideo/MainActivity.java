@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -25,12 +26,15 @@ import com.lanslot.fastvideo.Utils.DownloadUtils;
 import com.lanslot.fastvideo.Utils.PackageUtils;
 import com.lanslot.fastvideo.Utils.StatusBarUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.Date;
 
 @ContentView(R.layout.activity_main)
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager container;
 
     private long exitTime = 0;
+    private String pathStr="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             requestSettings();
         }
     }
+
 
     private void requestSettings() {
         RequestParams params = new RequestParams(HttpCommon.CONFIG);
@@ -113,13 +119,18 @@ public class MainActivity extends AppCompatActivity {
                 if (jo.getCode() == 0) {
 //                    Toast.makeText(MainActivity.this, R.string.update_need_no, Toast.LENGTH_SHORT).show();
                 } else {
-                    String url = jo.getDatas();
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.mainlogo).setTitle("版本更新")
+                    try {
+                        JSONObject jsonObj = new JSONObject(jo.getDatas());
+                        String url=jsonObj.getString("apkUrl");
+                        int forceUpdate=jsonObj.getInt("forceUpdate");
+                        if(forceUpdate==0){
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.mainlogo).setTitle("版本更新")
                             .setMessage("是否更新").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Toast.makeText(MainActivity.this, R.string.start_update, Toast.LENGTH_LONG).show();
                                     String apkName = "fastvideo-" + new Date().getTime() + ".apk";
+                                    //pathStr=MainActivity.this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)+"/"+apkName;
                                     new DownloadUtils(MainActivity.this, url, apkName).startDownload();
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -130,6 +141,29 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                     alertDialog.show();
+                        }else {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.mainlogo).setTitle("版本更新")
+                                    .setMessage("是否更新").setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(MainActivity.this, R.string.start_update, Toast.LENGTH_LONG).show();
+                                            String apkName = "fastvideo-" + new Date().getTime() + ".apk";
+                                            pathStr=MainActivity.this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)+"/"+apkName;
+                                            new DownloadUtils(MainActivity.this, url, apkName).startDownload();
+                                            AlertDialog alertDialog1 = new AlertDialog.Builder(MainActivity.this)
+                                                    .setMessage("正在下载中...")//内容
+                                                    .setIcon(R.drawable.mainlogo)//图标
+                                                    .create();
+                                            alertDialog1.setCancelable(false);
+                                            alertDialog1.show();
+                                        }
+                                    });
+                            alertDialog.setCancelable(false);
+                            alertDialog.show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -228,5 +262,18 @@ public class MainActivity extends AppCompatActivity {
             finish();
             System.exit(0);
         }
+
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        File f = new File(pathStr);
+        if(f.exists())
+        {
+            new DownloadUtils(MainActivity.this,"","").installAPK(pathStr);
+        }
+    }
+
 }

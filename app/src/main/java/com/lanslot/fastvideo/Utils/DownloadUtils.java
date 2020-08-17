@@ -94,7 +94,7 @@ public class DownloadUtils {
                 //下载完成
                 case DownloadManager.STATUS_SUCCESSFUL:
                     //下载完成安装APK
-                    installAPK();
+                    installAPK(pathstr);
                     cursor.close();
                     break;
                 //下载失败
@@ -107,14 +107,14 @@ public class DownloadUtils {
         }
     }
 
-    private void installAPK() {
-        setPermission(pathstr);
+    public void installAPK(String pathStr) {
+        setPermission(pathStr);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         // 由于没有在Activity环境下启动Activity,设置下面的标签
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //Android 7.0以上要使用FileProvider
         if (Build.VERSION.SDK_INT >= 24) {
-            File file = (new File(pathstr));
+            File file = (new File(pathStr));
             //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
             Uri apkUri = GenericFileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", file);
             //添加这一句表示对目标应用临时授权该Uri所代表的文件

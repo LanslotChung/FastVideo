@@ -57,7 +57,7 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     @Event(R.id.disclaimer)
-    private void ondisclaimerButtonCilcked(View v){
+    private void onDisclaimerButtonClicked(View v){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(AboutUsActivity.this).setIcon(R.drawable.mainlogo).setTitle("免责声明")
                 .setMessage(getResources().getString(R.string.disclaimer_content)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
