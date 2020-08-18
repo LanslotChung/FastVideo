@@ -89,11 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         login(un, pw);
     }
 
-    @Event(R.id.password)
-    private void onPasswordInputChanged() {
-
-    }
-
     @Event(R.id.register)
     private void onRegisterButtonClicked(View v) {
         String un = username.getText().toString();
